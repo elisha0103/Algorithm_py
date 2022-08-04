@@ -17,7 +17,7 @@ def get_smallest_node(): # 방문하지 않은 노드 중에서 최단 거리 �
     min_value = INF
     index = 0 # 가장 최단 거리가 짧은 노드(인덱스)
     for i in range(1, n+1):
-        if distance[i] < min_value and not visited[i]: # 기존 최단거리보다 짧고, 방문한 적이 없다면
+        if distance[i] < min_value and not visited[i]: # 방문한 적이 없는 노드 중, distance 배열에 탐색 대기중인 노드 중 거리 비용이 가장 작은 노드 반환
             min_value = distance[i]  # 최단거리 수정
             index = i # index에 최단거리 노드 저장
     return index  # 최단거리 노드 반환
