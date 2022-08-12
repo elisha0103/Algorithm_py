@@ -1,0 +1,49 @@
+#서로소 집합 사이클 판별
+
+# 특정 원소가 속한 집합을 찾기
+def find_parent(parent, x):
+  # 루트 노드가 아니라면, 루트 노드를 찾을 때까지 재귀적으로 호출
+  # 이는 개선된 알고리즘이다. find 함수 내에서 parent[x] 값이 전체적으로 한번에 수정된다.
+  if parent[x] != x:
+    parent[x] = find_parent(parent, parent[x])
+  return parent[x]
+
+# 두 원소가 속한 집합을 합치기
+def union_parent(parent, a, b):
+  a = find_parent(parent, a)
+  b = find_parent(parent, b)
+  if a < b:
+    parent[b] = a
+  else:
+    parent[a] = b
+    
+# 노드의 개수와 간선의 개수 입력받기
+v, e = map(int, input().split())
+
+# 부모 테이블상에서 부모를 자기 자신으로 초기화
+for i in range(1, v+1):
+  parent[i] = i
+
+cycle = False # 사이클 발생 여부
+
+# union 연산을 각각 수행
+for i in range(e):
+  a, b = map(int, input().split())
+  # 사이클 판별 조건부
+  if find_parent(parent, a) == find_parent(parent, b):
+    cycle = True
+    break # 사이클이 발생하면 종료
+  # 사이클이 발생하지 않은 경우
+  union_parent(parnet, a, b)
+
+# 각 원소가 속한 집합 출력
+print('각 원소가 속한 집합 : ', end=' ')
+for i in range(1, v+1):
+  print(find_parent(parent, i), end=' ')
+  
+print()
+
+# 부모 테이블 내용 출력
+print('부모 테이블 : ', end = ' ')
+for i in range(1, v+1):
+  print(parent[i], end=' ')
